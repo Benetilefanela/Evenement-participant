@@ -9,8 +9,8 @@ import com.webatrio.testjava.models.Participant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class ParticipantMapperImpl implements ParticipantMapper {
@@ -30,9 +30,12 @@ public class ParticipantMapperImpl implements ParticipantMapper {
         participant.prenom(participantDTO.getPrenom());
         participant.nom(participantDTO.getNom());
 
-        if (participantDTO.getEvenement() != null){
-            Evenement evenement = evenementMapper.toEvenement(participantDTO.getEvenement());
-            participant.evenement(evenement);
+        System.out.println(participantDTO.getEvenements().size());
+
+        if(participantDTO.getEvenements()!= null){
+            Set<Evenement> evenements = participantDTO.getEvenements().stream()
+                    .map(evenementDTO -> evenementMapper.toEvenement(evenementDTO)).collect(Collectors.toSet());
+            participant.evenements(evenements);
         }
         return participant.build();
     }
@@ -48,9 +51,10 @@ public class ParticipantMapperImpl implements ParticipantMapper {
         participantDto.prenom(participant.getPrenom());
         participantDto.email(participant.getEmail());
 
-        if(participant.getEvenement() != null){
-            EvenementDTO evenementDTO = evenementMapper.toEvenementDto(participant.getEvenement());
-            participantDto.evenement(evenementDTO);
+        if(participant.getEvenements() != null){
+            Set<EvenementDTO> evenements = participant.getEvenements().stream()
+                    .map(evenement -> evenementMapper.toEvenementDto(evenement)).collect(Collectors.toSet());
+            participantDto.evenements(evenements);
         }
 
         return participantDto.build();

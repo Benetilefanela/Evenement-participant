@@ -5,7 +5,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -24,9 +27,13 @@ public class Participant {
     @NotNull
     private String email;
 
-    @ManyToOne
-    @JoinColumn(name = "evenenemt_id")
-    @JsonIgnoreProperties({"participants"})
-    private Evenement evenement;
+    @OneToOne
+    private User user;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "participant_evenement",
+        joinColumns = @JoinColumn(name = "participant_id"),
+        inverseJoinColumns = @JoinColumn(name = "evenenemt_id"))
+    private Set<Evenement> evenements = new HashSet<>();
 
 }

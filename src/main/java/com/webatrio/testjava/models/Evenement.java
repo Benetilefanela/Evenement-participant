@@ -6,9 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @Setter
@@ -30,9 +28,9 @@ public class Evenement {
     @NotNull
     private int capaciteMaximale;
 
-    @OneToMany(mappedBy = "evenement")
-    @JsonIgnoreProperties("{evenement}")
-    private List<Participant> participants;
+    @ManyToMany(mappedBy = "evenements",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("{evenements}")
+    private Set<Participant> participants = new HashSet<>();
 
 
 }

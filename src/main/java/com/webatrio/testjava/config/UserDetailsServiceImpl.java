@@ -17,7 +17,7 @@ import java.util.Objects;
 
 @Service
 @Component
-public class MyUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
@@ -31,6 +31,7 @@ public class MyUserDetailsService implements UserDetailsService {
         }else{
             authorities.add(new SimpleGrantedAuthority(user.getRole().getNom()));
         }
+
         return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),authorities);
     }
 }

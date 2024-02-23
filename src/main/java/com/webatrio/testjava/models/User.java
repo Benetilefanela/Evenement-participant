@@ -21,7 +21,7 @@ public class User {
     private String username;
     private String password;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "role_id")
     @JsonIgnoreProperties(value = "users")

@@ -3,12 +3,13 @@ package com.webatrio.testjava.config;
 import com.webatrio.testjava.models.Role;
 import com.webatrio.testjava.models.User;
 import com.webatrio.testjava.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,8 +26,8 @@ public class JwtUtil implements Serializable {
 
     private static long JWT_TOKEN_VALIDITY= 10 * 60 * 60;
 
-    @Value("{jwt.secret}")
-    private String secret;
+   // @Value("{jwt.secret}")
+    private static String secret = "WEBATRIO";
 
     /** méthode pour récuperer le token*/
     public String getUsernameFromToken(String token){
@@ -72,8 +73,10 @@ public class JwtUtil implements Serializable {
     }
 
     /** methode pour verifier si le token est toujours valide*/
-    public Boolean validateToken(String token, UserDetails userDetails){
+    public Boolean validateToken(String token, UserDetails userDetailsImpl){
         final String username = getUsernameFromToken(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (username.equals(userDetailsImpl.getUsername()) && !isTokenExpired(token));
     }
+
+
 }

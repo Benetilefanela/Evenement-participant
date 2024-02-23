@@ -1,5 +1,6 @@
 package com.webatrio.testjava.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,6 +20,10 @@ public class Role {
     @Column(name = "role_id")
     private int id;
     private String nom;
+
+    @OneToMany(mappedBy = "role")
+    @JsonIgnore
+    private List<User> users;
 
 
 }

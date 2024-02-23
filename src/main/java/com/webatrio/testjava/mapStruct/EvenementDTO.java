@@ -1,16 +1,17 @@
 package com.webatrio.testjava.mapStruct;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Builder
 public class EvenementDTO {
 
@@ -21,6 +22,7 @@ public class EvenementDTO {
     private String lieu;
     private int capaciteMaximale;
 
-    private List<ParticipantDTO> participant;
+    @Builder.Default
+    private Set<ParticipantDTO> participant = new HashSet<>();
 
 }

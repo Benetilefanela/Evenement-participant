@@ -3,25 +3,26 @@ package com.webatrio.testjava.config;
 import com.webatrio.testjava.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
 
 @Service
-public class UserDetails implements org.springframework.security.core.userdetails.UserDetails {
+public class UserDetailsImpl implements UserDetails {
 
     private User user;
     private String username;
     private String password;
 
-    public UserDetails() {
+    public UserDetailsImpl() {
     }
 
-    public UserDetails(User user, String username, String password) {
+    public UserDetailsImpl(User user, String username, String password) {
         this.user = user;
-        this.username = user.getUsername();
-        this.password = user.getPassword();
+        this.username = username;
+        this.password = password;
     }
 
     @Override

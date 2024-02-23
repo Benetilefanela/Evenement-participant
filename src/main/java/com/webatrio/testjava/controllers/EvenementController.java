@@ -7,6 +7,8 @@ import com.webatrio.testjava.repositories.EvenementRepository;
 import com.webatrio.testjava.services.EvenementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +25,10 @@ public class EvenementController {
     @Autowired
     private EvenementService evenementService;
 
+
     @PostMapping("/add")
-    public ResponseEntity<?> creation(@RequestBody Evenement evenement, BindingResult result) throws EvenementException {
+    @PreAuthorize("hasRole('ROLE_ORGANISATEUR')")
+    public ResponseEntity<?> creation(@RequestBody EvenementDTO evenement, BindingResult result) {
         if(!result.hasErrors()){
             EvenementDTO dto = evenementService.creationEvenement(evenement);
             return ResponseEntity.ok(dto);
@@ -70,12 +74,14 @@ public class EvenementController {
     }
 
     @PutMapping("/update/{id}")
-    public EvenementDTO modifier(@RequestBody Evenement evenement, @PathVariable("id") int id ){
+    @PreAuthorize("hasRole('ROLE_ORGANISATEUR')")
+    public EvenementDTO modifier(@RequestBody EvenementDTO evenement, @PathVariable("id") int id ){
 
         return evenementService.modifierUnEvenement(evenement, id);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ORGANISATEUR')")
     public void annulerUnEvenement(@PathVariable("id") int id){
         evenementService.annulerUnEvenement(id);
     }
